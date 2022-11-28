@@ -1,0 +1,14 @@
+{
+    "builds": [
+        {
+            "src": "101295960_comp3123-assignment2/server.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+          "src": "/101295960_comp3123-assignment2",
+          "dest": "server.js"
+        }
+    ]
+  }
