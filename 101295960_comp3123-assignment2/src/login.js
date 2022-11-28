@@ -43,6 +43,7 @@ const handleSubmit = async (e) => {
         const {data} = await axios.post('https://101295960-comp-3123-assignment1.vercel.app/api/user/login',params, {
         headers: {
             "content-type": "application/json",
+			"Access-Control-Allow-Origin": "*",
           },
         });
   
