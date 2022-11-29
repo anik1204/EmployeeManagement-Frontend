@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 
 export default function Login() {
 
@@ -27,37 +26,32 @@ const handlePassword = (e) => {
 const handleSubmit = async (e) => {
 	e.preventDefault();
 	if (email === '' || password === '') {
-	setError(true);
-    setErrCode(1);
+		setError(true);
+		setErrCode(1);
 	} else {
-	//setSubmitted(true);
-	setError(false);
-    try {
-        const {params} = JSON.stringify({
+		//setSubmitted(true);
+		setError(false);
+			const {data} = await fetch('https://101295960-comp-3123-assignment1-o3o554exa-anik1204.vercel.app/api/user/login', {
+					method: 'POST',
+					body: JSON.stringify({
+						email: email,
+						password: password,
 
-            "email": {email},
-            
-            "password": {password},
-            
-            });
-        const {data} = await axios.post('https://101295960-comp-3123-assignment1.vercel.app/api/user/login',params, {
-        headers: {
-            "content-type": "application/json",
-			"Access-Control-Allow-Origin": "*",
-          },
-        });
-  
-        console.log('data is: ', JSON.stringify(data, null, 4));
-  
-        setErrCode(data.message);
-      } catch (err) {
-        setErrCode(err.message);
-      } finally {
-       // setIsLoading(false);
-      }
-    }
+					}),
+					headers: {
+						'Content-type': 'application/json; charset=UTF-8',
+					}
+				})
+				.then(function(response) {
+					return response.json()
+				})
+				.then(function(data) {
+					console.log(data.message);
+					setErrCode(data.message);
+					setError(true);
+				}).catch(error => console.error('Error:', error));
+	}
 };
-
 // Showing success message
 const successMessage = () => {
 	return (
