@@ -1,8 +1,18 @@
 import { useState } from 'react';
 //import EditEmployee from './editEmployee';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useNavigate 
+  } from "react-router-dom";
+
 
 export default function Employees() {
+    const navigate = useNavigate();
     const [empData, setEmpData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [aEmpData, setAEmpData] = useState([]);
     const getEmployees = async() => {
         const response = await fetch('https://101295960-comp-3123-assignment1-o3o554exa-anik1204.vercel.app/api/employees', {
@@ -16,6 +26,7 @@ export default function Employees() {
         })
         .then(function(data) {
             setEmpData(data);
+            setLoading(false);
         }).catch(error => console.error('Error:', error));
     };
 
@@ -36,17 +47,44 @@ export default function Employees() {
 
 const editEmp = (e) => {
     console.log(e);
+    navigate("/employees/edit",  { state: { data: e }});  
    // return <EditEmployee emObj = {e}></EditEmployee>
 }
 
-    getEmployees();
+const addEmployee = (e) => {
+    e.preventDefault();
+    navigate("/employees/add");  
+   // return <EditEmployee emObj = {e}></EditEmployee>
+}
+
+
+const delEmp = async (e) => {
+    const {data} = await fetch("https://101295960-comp-3123-assignment1-o3o554exa-anik1204.vercel.app/api/employees/"+e._id, {
+                method: 'DELETE'
+            })
+            .then(function(response) {
+                 return response.json();
+            })
+            .then(function(data) {
+            console.log(data.message);
+            window.location.reload(false);
+            }).catch(error => console.error('Error:', error));
+}
+
+    if(loading===true) getEmployees();
 return (
     <>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.js"></script>
+
+    <div id="loader" style={{
+		display: loading ? '' : 'none',
+		}} class="loader"></div>
         <h1>Employee List</h1>
     <body>
     
     <table align='center'>
-    <button className="button" id="addemp" type="submit" >Add Employee</button>
+    <button onClick={(e) => addEmployee(e)} className="button" id="addemp" type="submit" >Add Employee</button>
     <tbody id="emptbl">
         <tr>
             <th>First Name</th>
@@ -64,7 +102,8 @@ return (
              <td>{emp.email}</td>
               <td>{emp.gender}</td>
               <td>{emp.salary}</td>
-             <td><button onClick={() => editEmp(emp)} className="button" type="submit" >Edit Employee</button></td>
+             <td><button onClick={() => editEmp(emp)} className="button" type="submit" >Edit Employee</button>
+             <button onClick={() => delEmp(emp)} className="delbutton" type="submit" >Delete Employee</button></td>
          </tr>
          )
        }

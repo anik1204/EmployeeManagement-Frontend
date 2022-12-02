@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-export default function EditEmployee() {
+export default function AddEmployee() {
     const navigate = useNavigate();
     const [emObj, setemObj] = useState({_id: '', first_name: '', last_name: '', email: '', gender: '', salary: ''});
     const [fname, setfName] = useState('');
@@ -11,12 +11,6 @@ export default function EditEmployee() {
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
-
-
-
-    const timeout = (delay) => {
-        return new Promise( res => setTimeout(res, delay) );
-    }
 
     const successMessage = () => {
         return (
@@ -74,8 +68,8 @@ export default function EditEmployee() {
        } else {
             console.log(JSON.stringify(emObj));
 
-          const {data} = await fetch("https://101295960-comp-3123-assignment1-o3o554exa-anik1204.vercel.app/api/employees/"+emObj._id, {
-                method: 'PUT',
+          const {data} = await fetch("https://101295960-comp-3123-assignment1-o3o554exa-anik1204.vercel.app/api/employees/", {
+                method: 'POST',
                 body: JSON.stringify(emObj),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
@@ -87,25 +81,13 @@ export default function EditEmployee() {
                 return response.json();
             })
             .then(function(data) {
-                console.log(JSON.stringify(emObj));
+              //  console.log(JSON.stringify(emObj));
 
                 console.log(data.message);
                navigate("/employees");  
             }).catch(error => console.error('Error:', error));
        }
     };
-
-    const loadEmp = (e) => {
-        emObj.first_name=e.first_name;
-        emObj.last_name=e.last_name;
-        emObj.email=e.email;
-        emObj.gender=e.gender;
-        emObj.salary=e.salary;
-        emObj._id=e._id;
-     //   setLoading(false);
-    }
-   if(emObj._id === '') loadEmp(location.state.data);
-   console.log(JSON.stringify(emObj));
     return(
         
         <div className="form">

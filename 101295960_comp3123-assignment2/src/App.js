@@ -1,7 +1,8 @@
 import logo from './logo.svg';
 import Login from './login';
 import Employees from './employees';
-//import EditEmployee from './editEmployee';
+import EditEmployee from './editEmployee';
+import AddEmployee from './addEmployee';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
   
 import './App.css';
@@ -14,10 +15,17 @@ function App() {
                     path="/"
                     element={ <Login /> }
                 />
-                {/* The next line is very important for the Navigate component to work */}
                 <Route
                     path="/employees"
                     element={ <Employees /> }
+                />
+               <Route
+                    path="/employees/edit"
+                    element={ <EditEmployee /> }
+                />
+               <Route
+                    path="/employees/add"
+                    element={ <AddEmployee /> }
                 />
                
             </Routes>
