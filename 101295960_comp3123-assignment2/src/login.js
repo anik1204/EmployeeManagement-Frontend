@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
 
 export default function Login() {
-
+const navigate = useNavigate();
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 
@@ -49,6 +50,7 @@ const handleSubmit = async (e) => {
 					console.log(data.message);
 					setErrCode(data.message);
 					setError(true);
+					navigate("/employees");
 				}).catch(error => console.error('Error:', error));
 	}
 };

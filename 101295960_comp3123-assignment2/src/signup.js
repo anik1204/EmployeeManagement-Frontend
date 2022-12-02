@@ -56,7 +56,7 @@ const handleSubmit = async (e) => {
 			console.log(data.message);
 			setErrCode(data.message);
 			setError(true);
-			navigate("/login");
+			navigate("/");
 		}).catch(error => console.error('Error:', error));
 	}
 };

@@ -62,12 +62,9 @@ const delEmp = async (e) => {
     const {data} = await fetch("https://101295960-comp-3123-assignment1-o3o554exa-anik1204.vercel.app/api/employees/"+e._id, {
                 method: 'DELETE'
             })
-            .then(function(response) {
-                 return response.json();
-            })
             .then(function(data) {
             console.log(data.message);
-            window.location.reload(false);
+            setLoading(true);
             }).catch(error => console.error('Error:', error));
 }
 
