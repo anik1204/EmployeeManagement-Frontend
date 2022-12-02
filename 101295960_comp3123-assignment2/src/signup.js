@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
+
 
 export default function Signup() {
-
+const navigate = useNavigate();
 // States for registration
 const [name, setName] = useState('');
 const [email, setEmail] = useState('');
@@ -10,6 +12,7 @@ const [password, setPassword] = useState('');
 // States for checking the errors
 const [submitted, setSubmitted] = useState(false);
 const [error, setError] = useState(false);
+const [errCode, setErrCode] = useState(1);
 
 // Handling the name change
 const handleName = (e) => {
@@ -30,13 +33,31 @@ const handlePassword = (e) => {
 };
 
 // Handling the form submission
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
 	e.preventDefault();
 	if (name === '' || email === '' || password === '') {
 	setError(true);
 	} else {
-	setSubmitted(true);
-	setError(false);
+		const {data} = await fetch('https://101295960-comp-3123-assignment1-o3o554exa-anik1204.vercel.app/api/user/signup', {
+			method: 'POST',
+			body: JSON.stringify({
+				username: name,
+				email: email,
+				password: password,
+			}),
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8',
+			}
+		})
+		.then(function(response) {
+			return response.json()
+		})
+		.then(function(data) {
+			console.log(data.message);
+			setErrCode(data.message);
+			setError(true);
+			navigate("/login");
+		}).catch(error => console.error('Error:', error));
 	}
 };
 
@@ -61,7 +82,7 @@ const errorMessage = () => {
 		style={{
 		display: error ? '' : 'none',
 		}}>
-		<h1>Please enter all the fields</h1>
+        {errCode===1 ? <h1>Please enter all the fields</h1> : <h1>{errCode}</h1>}
 	</div>
 	);
 };
@@ -82,7 +103,7 @@ return (
     
 	<form>
 		{/* Labels and inputs for form data */}
-		<label className="label">Name</label>
+		<label className="label">Username</label>
 		<input onChange={handleName} className="input"
 		value={name} type="text" />
 

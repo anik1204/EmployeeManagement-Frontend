@@ -104,6 +104,8 @@ return (
 		<button onClick={handleSubmit} className="btn" type="submit">
 		Submit
 		</button>
+
+		<a href="/signup">New User? Sign up here.</a>
 	</form>
 	</div>
 );

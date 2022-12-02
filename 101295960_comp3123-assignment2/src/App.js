@@ -3,6 +3,7 @@ import Login from './login';
 import Employees from './employees';
 import EditEmployee from './editEmployee';
 import AddEmployee from './addEmployee';
+import Signup from './signup';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
   
 import './App.css';
@@ -26,6 +27,10 @@ function App() {
                <Route
                     path="/employees/add"
                     element={ <AddEmployee /> }
+                />
+               <Route
+                    path="/signup"
+                    element={ <Signup /> }
                 />
                
             </Routes>
